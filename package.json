@@ -1,6 +1,6 @@
 {
   "name": "@jsirp/nest-open-api-client-axios",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "keywords": [
     "nest",
@@ -22,6 +22,7 @@
     "format-check": "prettier  \"src/**/*.ts\" --check",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "prepare": "husky",
+    "pub": "yarn build && npm publish --access=public",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
