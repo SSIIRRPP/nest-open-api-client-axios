@@ -1,6 +1,7 @@
 {
   "name": "@jsirp/nest-open-api-client-axios",
   "version": "1.0.0",
+  "private": false,
   "keywords": [
     "nest",
     "open-api",
@@ -49,6 +50,6 @@
   },
   "packageManager": "yarn@4.3.1",
   "publishConfig": {
-    "@jsirp:registry": "https://npm.pkg.github.com"
+    "@jsirp-dev:registry": "https://npm.pkg.github.com"
   }
 }
