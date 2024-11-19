@@ -10,12 +10,14 @@ import {
 import OpenAPIClientAxios, { OpenAPIClient } from 'openapi-client-axios';
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type -- ok
   interface AxiosApiClient extends OpenAPIClient {}
 }
 
 export const AxiosApiClient = 'AxiosApiClientKey';
 
-export const UseAxiosApiClient = () => Inject(AxiosApiClient);
+export const UseAxiosApiClient = (key = AxiosApiClient) =>
+  Inject(key || AxiosApiClient);
 
 type OpenAPIClientAxiosOptions = ConstructorParameters<
   typeof OpenAPIClientAxios
@@ -35,9 +37,10 @@ export class OpenApiAxiosClientModule extends ConfigurableModuleClass {
       'create'
     > &
       Partial<object>,
+    key = AxiosApiClient,
   ): DynamicModule {
     const apiClientProvider: Provider = {
-      provide: AxiosApiClient,
+      provide: key,
       useFactory: async (options: OpenAPIClientAxiosOptions) => {
         const privateApi = new OpenAPIClientAxios(options);
 
@@ -53,7 +56,7 @@ export class OpenApiAxiosClientModule extends ConfigurableModuleClass {
         ...(super.forRootAsync(options ?? {}).providers || []),
         apiClientProvider,
       ],
-      exports: [AxiosApiClient],
+      exports: [key],
     };
   }
 }
