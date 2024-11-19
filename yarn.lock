@@ -1009,6 +1009,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jsirp/nest-open-api-client-axios@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@jsirp/nest-open-api-client-axios@workspace:."
+  dependencies:
+    "@nestjs/cli": "npm:^10.4.7"
+    "@nestjs/common": "npm:^10.4.8"
+    "@nestjs/mapped-types": "npm:^2.0.6"
+    "@nestjs/testing": "npm:^10.4.8"
+    "@types/jest": "npm:^29.5.14"
+    "@types/mocha": "npm:^10.0.9"
+    "@typescript-eslint/eslint-plugin": "npm:^8.15.0"
+    "@typescript-eslint/parser": "npm:^8.15.0"
+    eslint: "npm:^8.42.0"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-plugin-prettier: "npm:^5.2.1"
+    husky: "npm:^9.0.11"
+    jest: "npm:^29.7.0"
+    openapi-client-axios: "npm:^7.5.5"
+    prettier: "npm:^3.3.3"
+    prettier-plugin-packagejson: "npm:^2.5.3"
+    prettier-plugin-sort-json: "npm:^4.0.0"
+    ts-node: "npm:^10.9.2"
+    tsup: "npm:^8.3.5"
+    typescript: "npm:^5.4.5"
+  languageName: unknown
+  linkType: soft
+
 "@ljharb/through@npm:^2.3.12":
   version: 2.3.13
   resolution: "@ljharb/through@npm:2.3.13"
@@ -5003,33 +5030,6 @@ __metadata:
   checksum: 10c0/c2f5a604a54a8ec5438a342e1f356dff4bc33ccccdb6dc668d94fe8e5eccfc9d2c2eea6064b0967a767ba63b33763f51ccf2cd2441b461a7322656c1f06b3f5d
   languageName: node
   linkType: hard
-
-"nest-open-api-client-axios@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "nest-open-api-client-axios@workspace:."
-  dependencies:
-    "@nestjs/cli": "npm:^10.4.7"
-    "@nestjs/common": "npm:^10.4.8"
-    "@nestjs/mapped-types": "npm:^2.0.6"
-    "@nestjs/testing": "npm:^10.4.8"
-    "@types/jest": "npm:^29.5.14"
-    "@types/mocha": "npm:^10.0.9"
-    "@typescript-eslint/eslint-plugin": "npm:^8.15.0"
-    "@typescript-eslint/parser": "npm:^8.15.0"
-    eslint: "npm:^8.42.0"
-    eslint-config-prettier: "npm:^9.1.0"
-    eslint-plugin-prettier: "npm:^5.2.1"
-    husky: "npm:^9.0.11"
-    jest: "npm:^29.7.0"
-    openapi-client-axios: "npm:^7.5.5"
-    prettier: "npm:^3.3.3"
-    prettier-plugin-packagejson: "npm:^2.5.3"
-    prettier-plugin-sort-json: "npm:^4.0.0"
-    ts-node: "npm:^10.9.2"
-    tsup: "npm:^8.3.5"
-    typescript: "npm:^5.4.5"
-  languageName: unknown
-  linkType: soft
 
 "node-abort-controller@npm:^3.0.1":
   version: 3.1.1
