@@ -1,4 +1,44 @@
 {
   "name": "nest-open-api-client-axios",
-  "packageManager": "yarn@4.2.2"
+  "version": "1.0.0",
+  "keywords": [
+    "nest",
+    "open-api",
+    "axios",
+    "openapi-client-axios"
+  ],
+  "license": "ISC",
+  "author": "SSIIRRPP",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format-check": "prettier  \"src/**/*.ts\" \"test/**/*.ts\" --check",
+    "lint": "eslint \"{src}/**/*.ts\" --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.4.8",
+    "openapi-client-axios": "^7.5.5"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.7",
+    "prettier": "^3.3.3",
+    "prettier-plugin-packagejson": "^2.5.3",
+    "prettier-plugin-sort-json": "^4.0.0",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.4.5"
+  },
+  "packageManager": "yarn@4.3.1"
 }
