@@ -4,6 +4,9 @@ import { ModuleMetadata, FactoryProvider } from '@nestjs/common';
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type -- ok
   interface AxiosApiClient extends OpenAPIClient {}
+  interface AxiosApiClientConfig extends OpenApiAxiosClientOptions {
+    global: boolean;
+  }
 }
 
 export type OpenAPIClientAxiosOptions = ConstructorParameters<

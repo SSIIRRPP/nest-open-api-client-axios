@@ -52,7 +52,7 @@ export class OpenApiAxiosModule extends OmitType(ConfigurableModuleClass, [
         },
         {
           provide: clientApiConfigToken,
-          useValue: config,
+          useValue: { config, key, global },
         },
       ];
     });
@@ -69,9 +69,9 @@ export class OpenApiAxiosModule extends OmitType(ConfigurableModuleClass, [
     options: AsyncOpenApiAxiosClientOptions[],
     global: boolean = false,
   ): DynamicModule {
-    const asyncModules = options.map(({ key, imports, useFactory, inject }) => {
-      const clientApiToken = `${key}_API_CLIENT`;
-      const clientConfigToken = `${key}_API_CONFIG`;
+    const asyncClients = options.map(({ key, imports, useFactory, inject }) => {
+      const clientApiToken = generateApiClientToken(key);
+      const clientApiConfigToken = generateApiClientConfigToken(key);
 
       const clientProviders = [
         {
@@ -94,8 +94,12 @@ export class OpenApiAxiosModule extends OmitType(ConfigurableModuleClass, [
           inject: [ClientRegistryService, ...(inject || [])],
         },
         {
-          provide: clientConfigToken,
-          useFactory: async (...args: any[]) => await useFactory(...args),
+          provide: clientApiConfigToken,
+          useFactory: async (...args: any[]) => ({
+            config: await useFactory(...args),
+            key,
+            global,
+          }),
           inject: inject || [],
         },
       ];
@@ -110,12 +114,12 @@ export class OpenApiAxiosModule extends OmitType(ConfigurableModuleClass, [
 
     return {
       module: OpenApiAxiosModule,
-      imports: asyncModules.flatMap(m => m.imports || []),
+      imports: asyncClients.flatMap(m => m.imports || []),
       providers: [
-        ...asyncModules.flatMap(m => m.providers || []),
+        ...asyncClients.flatMap(m => m.providers || []),
         ClientRegistryService,
       ],
-      exports: asyncModules.flatMap(m => m.exports || []),
+      exports: asyncClients.flatMap(m => m.exports || []),
       global,
     };
   }
