@@ -1,7 +1,6 @@
 {
   "name": "@jsirp/nestjs-open-api-client-axios",
   "version": "1.0.1",
-  "private": false,
   "keywords": [
     "nestjs",
     "open-api",
@@ -33,6 +32,7 @@
   "devDependencies": {
     "@nestjs/cli": "^10.4.7",
     "@nestjs/testing": "^10.4.8",
+    "@swc/core": "^1.9.2",
     "@types/jest": "^29.5.14",
     "@types/mocha": "^10.0.9",
     "@typescript-eslint/eslint-plugin": "^8.15.0",
