@@ -1,6 +1,3 @@
-import { Injectable } from '@nestjs/common';
-
-@Injectable()
 export class ClientRegistryService {
   private registeredClientKeys = new Set<string>();
 

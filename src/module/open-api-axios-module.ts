@@ -2,6 +2,8 @@ import {
   ConfigurableModuleBuilder,
   DynamicModule,
   Global,
+  Logger,
+  LoggerService,
   Module,
 } from '@nestjs/common';
 import OpenAPIClientAxios from 'openapi-client-axios';
@@ -21,15 +23,52 @@ const { ConfigurableModuleClass } =
     .build();
 
 @Global()
-@Module({})
+@Module({
+  providers: [Logger],
+})
 export class OpenApiAxiosModule extends OmitType(ConfigurableModuleClass, [
   'forRoot',
   'forRootAsync',
 ]) {
+  private static clientRegistryService = new ClientRegistryService();
+  private static initialized: boolean;
+  private static logger: LoggerService = new Logger();
+
+  static forRoot<T extends LoggerService>(Logger?: new () => T) {
+    if (this.initialized) {
+      this.logger.error(
+        'OpenApiAxiosModule.forRoot has already been executed',
+        OpenApiAxiosModule.name,
+      );
+      throw new Error('OpenApiAxiosModule.forRoot has already been executed');
+    }
+    if (Logger) {
+      this.logger = new Logger();
+    }
+    this.initialized = true;
+  }
+
+  private static checkOptions(
+    options: AsyncOpenApiAxiosClientOptions[] | OpenApiAxiosClientOptions[],
+  ) {
+    options.forEach(({ key }) => {
+      if (!this.clientRegistryService.registerClient(key)) {
+        this.logger.error(
+          `OpenApiAxiosClient with key "${key}" has already been registered.`,
+          OpenApiAxiosModule.name,
+        );
+        throw new Error(
+          `OpenApiAxiosClient with key "${key}" has already been registered.`,
+        );
+      }
+    });
+  }
+
   static forClients(
     options: OpenApiAxiosClientOptions[],
     global = false,
   ): DynamicModule {
+    this.checkOptions(options);
     const clientProviders = options.flatMap(({ config, key }) => {
       const clientApiToken = generateApiClientToken(key);
       const clientApiConfigToken = generateApiClientConfigToken(key);
@@ -37,18 +76,11 @@ export class OpenApiAxiosModule extends OmitType(ConfigurableModuleClass, [
       return [
         {
           provide: clientApiToken,
-          useFactory: async (clientRegistryService: ClientRegistryService) => {
-            if (!clientRegistryService.registerClient(key)) {
-              throw new Error(
-                `Client with key "${key}" has already been registered.`,
-              );
-            }
-
+          useFactory: async () => {
             const privateApi = new OpenAPIClientAxios(config);
             const client = await privateApi.getClient();
             return client;
           },
-          inject: [ClientRegistryService],
         },
         {
           provide: clientApiConfigToken,
@@ -59,16 +91,17 @@ export class OpenApiAxiosModule extends OmitType(ConfigurableModuleClass, [
 
     return {
       module: OpenApiAxiosModule,
-      providers: [...clientProviders, ClientRegistryService],
+      providers: clientProviders,
       exports: clientProviders.map(provider => provider.provide),
       global,
     };
   }
 
-  static forClientsAsync(
+  static async forClientsAsync(
     options: AsyncOpenApiAxiosClientOptions[],
     global: boolean = false,
-  ): DynamicModule {
+  ): Promise<DynamicModule> {
+    this.checkOptions(options);
     const asyncClients = options.map(({ key, imports, useFactory, inject }) => {
       const clientApiToken = generateApiClientToken(key);
       const clientApiConfigToken = generateApiClientConfigToken(key);
@@ -76,22 +109,13 @@ export class OpenApiAxiosModule extends OmitType(ConfigurableModuleClass, [
       const clientProviders = [
         {
           provide: clientApiToken,
-          useFactory: async (
-            clientRegistryService: ClientRegistryService,
-            ...args: any[]
-          ) => {
-            if (!clientRegistryService.registerClient(key)) {
-              throw new Error(
-                `Client with key "${key}" has already been registered.`,
-              );
-            }
-
+          useFactory: async (...args: any[]) => {
             const config = await useFactory(...args);
             const privateApi = new OpenAPIClientAxios(config);
             const client = await privateApi.getClient();
             return client;
           },
-          inject: [ClientRegistryService, ...(inject || [])],
+          inject: inject || [],
         },
         {
           provide: clientApiConfigToken,
@@ -115,10 +139,7 @@ export class OpenApiAxiosModule extends OmitType(ConfigurableModuleClass, [
     return {
       module: OpenApiAxiosModule,
       imports: asyncClients.flatMap(m => m.imports || []),
-      providers: [
-        ...asyncClients.flatMap(m => m.providers || []),
-        ClientRegistryService,
-      ],
+      providers: [...asyncClients.flatMap(m => m.providers || [])],
       exports: asyncClients.flatMap(m => m.exports || []),
       global,
     };
