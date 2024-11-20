@@ -1009,9 +1009,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jsirp/nest-open-api-client-axios@workspace:.":
+"@jsirp/nestjs-open-api-client-axios@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@jsirp/nest-open-api-client-axios@workspace:."
+  resolution: "@jsirp/nestjs-open-api-client-axios@workspace:."
   dependencies:
     "@nestjs/cli": "npm:^10.4.7"
     "@nestjs/common": "npm:^10.4.8"

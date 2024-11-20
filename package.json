@@ -1,6 +1,6 @@
 {
-  "name": "@jsirp/nest-open-api-client-axios",
-  "version": "1.0.2",
+  "name": "@jsirp/nestjs-open-api-client-axios",
+  "version": "1.0.0",
   "private": false,
   "keywords": [
     "nest",
