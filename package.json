@@ -1,12 +1,16 @@
 {
   "name": "@jsirp/nestjs-open-api-client-axios",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": [
     "nestjs",
     "open-api",
     "axios",
     "openapi-client-axios"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsirp-dev/nest-open-api-client-axios"
+  },
   "license": "ISC",
   "author": "SSIIRRPP",
   "main": "./dist/index.js",
